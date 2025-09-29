@@ -35,13 +35,15 @@ export async function GET(request: NextRequest) {
 }
 
 // Function to broadcast events to all connected clients
-export function broadcastEvent(event: { type: string; data: any }) {
+type BroadcastPayload = { type: string; data: unknown };
+
+export function broadcastEvent(event: BroadcastPayload) {
   const message = `data: ${JSON.stringify(event)}\n\n`;
   
   clients.forEach((controller) => {
     try {
       controller.enqueue(message);
-    } catch (error) {
+    } catch {
       // Remove disconnected clients
       clients.delete(controller);
     }

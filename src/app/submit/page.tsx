@@ -15,18 +15,23 @@ const artistSchema = z.object({
   bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
 });
 
-const trackSchema = z.object({
-  title: z.string().min(1, "Track title is required"),
-  genre: z.string().optional(),
-  bpm: z.number().min(60).max(200).optional(),
-  key: z.string().optional(),
-  description: z.string().max(300, "Description must be less than 300 characters").optional(),
-});
+// const trackSchema = z.object({
+//   title: z.string().min(1, "Track title is required"),
+//   genre: z.string().optional(),
+//   bpm: z.number().min(60).max(200).optional(),
+//   key: z.string().optional(),
+//   description: z.string().max(300, "Description must be less than 300 characters").optional(),
+// });
 
 type ArtistFormData = z.infer<typeof artistSchema>;
-type TrackFormData = z.infer<typeof trackSchema>;
+// type TrackFormData = z.infer<typeof trackSchema>;
 
-interface Track extends TrackFormData {
+interface Track {
+  title: string;
+  genre?: string;
+  bpm?: number;
+  key?: string;
+  description?: string;
   file: File;
   id: string;
   uploadProgress: number;
@@ -258,7 +263,7 @@ export default function SubmitPage() {
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Submission Successful!</h1>
           <p className="text-gray-600 mb-6">
-            Thank you for your submission. We'll review your tracks and get back to you soon.
+            Thank you for your submission. We&apos;ll review your tracks and get back to you soon.
           </p>
           <button
             onClick={() => setSubmitStatus('idle')}

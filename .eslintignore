@@ -1,0 +1,16 @@
+# Ignore build output
+.next/
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Generated Prisma runtime and client
+src/generated/**
+prisma/**/migrations/**
+
+# Misc
+coverage/
+*.log
+

@@ -50,8 +50,9 @@ export async function sendTemplateEmail(
     await sgMail.send(msg);
     console.log('Template email sent successfully to:', artistEmail);
     return true;
-  } catch (error: any) {
-    console.error('Error sending template email:', error?.message);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('Error sending template email:', message);
     return false;
   }
 }

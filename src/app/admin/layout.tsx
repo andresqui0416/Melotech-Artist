@@ -19,7 +19,6 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [isNavigating, setIsNavigating] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
   const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
@@ -106,7 +105,6 @@ export default function AdminLayout({
               </div>
               <button
                 onClick={() => {
-                  setIsSigningOut(true);
                   signOut({ redirect: true, callbackUrl: "/admin/login" });
                 }}
                 className="p-2 text-gray-400 hover:text-gray-600 transition-colors"

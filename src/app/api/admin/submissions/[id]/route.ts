@@ -114,7 +114,7 @@ export async function POST(
     const review = await prisma.review.create({
       data: {
         submissionId: id,
-        reviewerId: (session.user as any).id,
+        reviewerId: (session.user as { id: string }).id,
         score: validatedData.score,
         internalNotes: validatedData.internalNotes,
         feedbackForArtist: validatedData.feedbackForArtist,

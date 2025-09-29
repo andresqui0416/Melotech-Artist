@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Submission {
   id: string;
@@ -94,7 +94,7 @@ export const useRealtimeSSE = ({
       eventSource.close();
       setIsConnected(false);
     };
-  }, []); // Empty dependency array - only run once
+  }, [onNewSubmission, onSubmissionDelete, onSubmissionUpdate]);
 
   return { isConnected, isConnecting };
 };

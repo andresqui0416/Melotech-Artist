@@ -82,6 +82,7 @@ export default function AdminDashboard() {
     if (initialLoading && submissions.length === 0) {
       fetchSubmissions(true);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Effect for pagination and filtering changes
@@ -89,6 +90,7 @@ export default function AdminDashboard() {
     if (!initialLoading) {
       fetchSubmissions(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, itemsPerPage, filter, debouncedSearchTerm]);
 
   const fetchSubmissions = async (isInitial = false) => {
@@ -139,10 +141,10 @@ export default function AdminDashboard() {
 
       if (response.ok) {
         setSubmissions(prev => prev.map(sub =>
-          sub.id === submissionId ? { ...sub, status: status as any } : sub
+          sub.id === submissionId ? { ...sub, status: status as Submission['status'] } : sub
         ));
         if (selectedSubmission?.id === submissionId) {
-          setSelectedSubmission(prev => prev ? { ...prev, status: status as any } : null);
+          setSelectedSubmission(prev => prev ? { ...prev, status: status as Submission['status'] } : null);
         }
       }
     } catch (error) {
@@ -425,7 +427,7 @@ export default function AdminDashboard() {
               {['ALL', 'PENDING', 'IN_REVIEW', 'APPROVED', 'REJECTED'].map((status) => (
                 <button
                   key={status}
-                  onClick={() => handleFilterChange(status as any)}
+                  onClick={() => handleFilterChange(status as 'ALL' | 'PENDING' | 'IN_REVIEW' | 'APPROVED' | 'REJECTED')}
                   disabled={loading}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${filter === status
                       ? 'bg-blue-600 text-white'

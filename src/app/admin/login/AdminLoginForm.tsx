@@ -32,14 +32,14 @@ export function AdminLoginForm({ adminEmail, adminPassword }: AdminLoginFormProp
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async () => {
     setIsLoading(true);
     setError("");
 
     try {
       const result = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
+        email: adminEmail,
+        password: adminPassword,
         redirect: false,
       });
 
@@ -52,7 +52,7 @@ export function AdminLoginForm({ adminEmail, adminPassword }: AdminLoginFormProp
           router.push("/admin/dashboard");
         }
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
