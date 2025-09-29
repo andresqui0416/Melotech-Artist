@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface Submission {
   id: string;
@@ -52,6 +52,24 @@ export const useRealtimeSSE = ({
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
 
+  // Use refs to store the latest callback functions
+  const onNewSubmissionRef = useRef(onNewSubmission);
+  const onSubmissionUpdateRef = useRef(onSubmissionUpdate);
+  const onSubmissionDeleteRef = useRef(onSubmissionDelete);
+
+  // Update refs when callbacks change
+  useEffect(() => {
+    onNewSubmissionRef.current = onNewSubmission;
+  }, [onNewSubmission]);
+
+  useEffect(() => {
+    onSubmissionUpdateRef.current = onSubmissionUpdate;
+  }, [onSubmissionUpdate]);
+
+  useEffect(() => {
+    onSubmissionDeleteRef.current = onSubmissionDelete;
+  }, [onSubmissionDelete]);
+
   useEffect(() => {
     const eventSource = new EventSource('/api/events');
     
@@ -74,13 +92,13 @@ export const useRealtimeSSE = ({
 
         switch (data.type) {
           case 'new-submission':
-            onNewSubmission(data.data);
+            onNewSubmissionRef.current(data.data);
             break;
           case 'submission-updated':
-            onSubmissionUpdate(data.data);
+            onSubmissionUpdateRef.current(data.data);
             break;
           case 'submission-deleted':
-            onSubmissionDelete(data.data);
+            onSubmissionDeleteRef.current(data.data);
             break;
           default:
             console.log('Unknown event type:', data.type);
@@ -94,7 +112,7 @@ export const useRealtimeSSE = ({
       eventSource.close();
       setIsConnected(false);
     };
-  }, [onNewSubmission, onSubmissionDelete, onSubmissionUpdate]);
+  }, []); // Empty dependency array - only run once
 
   return { isConnected, isConnecting };
 };

@@ -9,6 +9,8 @@ export async function POST() {
   const passwordHash = await bcrypt.hash(password, 10);
 
   await prisma.user.deleteMany({});
+
+  await prisma.review.deleteMany({});
   // Create admin user
   const existing = await prisma.user.findUnique({ where: { email } });
   if (!existing) {
@@ -226,8 +228,6 @@ export async function POST() {
       console.error(`Error creating artist ${artistData.name}:`, error);
     }
   }
-  await prisma.review.deleteMany({});
-  await prisma.artist.deleteMany({});
   return NextResponse.json({ ok: true, message: "Test data seeded successfully" });
 }
 
