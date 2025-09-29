@@ -75,7 +75,7 @@ ADMIN_PASSWORD="admin123"
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd melotechtest
+   cd Melotech-Artist
    ```
 
 2. **Install dependencies**
